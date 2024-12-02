@@ -1,12 +1,15 @@
 var https = require('https');
+var fs = require('fs');
 
 var email = 'qaz1006ing@gmail.com',
     password = 'JkNmKmDf6zyty9T',
     data = {
         branch: 'default',         
         modules: {
-            main: 'require("hello");',
-            hello: 'console.log("Hello World!");'
+            // main: 'require("hello");',
+            main: fs.readFileSync('./main.js', 'utf8'),
+            config_globalMem: fs.readFileSync('./config/globalMem.js', 'utf8'),
+        
         }
     };
 
