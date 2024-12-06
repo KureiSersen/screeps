@@ -1,5 +1,9 @@
 var https = require('https');
 var fs = require('fs');
+var path = require('path');
+
+var modules = {};
+var pathDir = __dirname + '/src';
 
 
 function readDir(pathDir){
@@ -11,7 +15,8 @@ function readDir(pathDir){
 
         if (stat.isFile()){
             var content = fs.readFileSync(filePath, 'utf8')
-            console.log(content)
+            modules[file.split('.')[0]] = content;
+
         } else if (stat.isDirectory()){
             readDir(filePath)
         }
@@ -19,18 +24,12 @@ function readDir(pathDir){
     }
 }
 
-var pathDir = __dirname + '/src';
 
 var email = 'qaz1006ing@gmail.com',
     password = 'JkNmKmDf6zyty9T',
     data = {
         branch: 'default',         
-        modules: {
-            // main: 'require("hello");',
-            main: fs.readFileSync('./main.js', 'utf8'),
-            config_globalMem: fs.readFileSync('./config/globalMem.js', 'utf8'),
-        
-        }
+        modules: modules
     };
 
 var req = https.request({
@@ -44,6 +43,9 @@ var req = https.request({
     }
 });
 
-// req.write(JSON.stringify(data));
-// req.end();
+
 readDir(pathDir)
+console.log(modules)
+
+req.write(JSON.stringify(data));
+req.end();
