@@ -3,6 +3,7 @@
 })();
 
 var controllerCommand = require('config_globalMem');
+var creep_proto = require('creep_proto');
 
 module.exports.loop = function () {
     controllerCommand.test()
@@ -34,9 +35,15 @@ module.exports.loop = function () {
         return ArrayObj;
     }
     
-    const raw = (new Room.Terrain("E52S46")).getRawBuffer();
+    const raw = (new Room.Terrain("E53S46")).getRawBuffer();
     ArrayObj = myPrintRaw(raw);
-    console.log(ArrayObj[49][42]);
-    myPrintRawTerain(raw);
+    // console.log(ArrayObj[49][42]);
+    var count = 1;
+    while(count > 0){
+        creep_proto.find_path(48,19,35,42,ArrayObj);
+        count -= 1;
+        // console.log(count);
+    }
+    // myPrintRawTerain(raw);
     
 }
